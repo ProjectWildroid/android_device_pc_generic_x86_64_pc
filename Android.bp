@@ -1,0 +1,13 @@
+//
+// SPDX-FileCopyrightText: The Wildroid Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+soong_namespace {
+}
+
+mkdir {
+    name: "vendor_firmware_mountpoint",
+    dir: "firmware",
+    vendor: true,
+}

@@ -1,0 +1,40 @@
+#
+# SPDX-FileCopyrightText: The Wildroid Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+import /vendor/etc/init/hw/init.mainline.rc
+
+# Mount
+on fs
+    # Mount everything that does not require fsck
+    mount_all --early
+
+on late-fs
+    # Mount RW partitions which need run fsck
+    mount_all --late
+
+# Logging to file
+service vendor.dmesg_to_file /system/bin/sh -c "dmesg > /data/logs/dmesg.txt"
+    user system
+    group system
+    seclabel u:r:logd:s0
+    oneshot
+    disabled
+
+service vendor.logcat_to_file /system/bin/logcat -f /data/logs/logcat.txt
+    user system
+    group system log
+    seclabel u:r:logd:s0
+    disabled
+
+on late-init
+    mkdir /data/logs 0775 system log
+    start vendor.logcat_to_file
+
+on boot
+    start vendor.dmesg_to_file
+
+on property:sys.bootstat.first_boot_completed=1
+    stop vendor.dmesg_to_file
+    stop vendor.logcat_to_file
