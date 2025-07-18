@@ -14,6 +14,9 @@ TARGET_USES_FRAMEBUFFER_DISPLAY := true
 include device/mainline/common/optional/options.mk
 $(call inherit-product, device/mainline/common/mainline_common.mk)
 
+# Inherit from Wildroid
+$(call inherit-product, vendor/wildroid/config/tablet.mk)
+
 # Bootanimation
 TARGET_SCREEN_WIDTH := 300
 TARGET_SCREEN_HEIGHT := 300
