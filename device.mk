@@ -31,7 +31,7 @@ PRODUCT_PACKAGES += \
 # Init
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,fstab.*,$(DEVICE_PATH)/configs/fstab/,$(TARGET_COPY_OUT_VENDOR)/etc/) \
-    $(DEVICE_PATH)/configs/init/init.generic.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.generic.rc
+    $(call find-copy-subdir-files,*.rc,$(DEVICE_PATH)/configs/init/,$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/)
 
 # Input
 PRODUCT_COPY_FILES += \
