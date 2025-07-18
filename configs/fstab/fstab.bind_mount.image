@@ -1,0 +1,22 @@
+#
+# SPDX-FileCopyrightText: The Wildroid Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# Base
+android /oem virtiofs defaults first_stage_mount,ensure_path_accessible=android/system.img;android/vendor.img
+
+# Metadata
+/oem/android/metadata.img /metadata ext4 nodev,noatime,nosuid,discard,data=journal,commit=1 first_stage_mount,check,formattable,metadata_csum
+
+# System
+/oem/android/system.img /system ext4 noatime first_stage_mount
+
+# Userdata
+/oem/android/data.img /data ext4 nodev,noatime,nosuid,discard latemount,check,quota,formattable
+/oem/android/data.img /data f2fs nodev,noatime,nosuid,discard,reserve_root=32768 latemount,check,quota,formattable
+
+# Vendor
+/oem/android/vendor.img /vendor ext4 noatime first_stage_mount
+/oem/android/firmware /vendor/firmware none bind first_stage_mount,nofail
+/oem/lib/firmware /vendor/firmware none bind first_stage_mount,nofail

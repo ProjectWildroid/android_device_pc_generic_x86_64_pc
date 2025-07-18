@@ -30,7 +30,7 @@ PRODUCT_PACKAGES += \
 
 # Init
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/fstab/fstab.generic:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.generic \
+    $(call find-copy-subdir-files,fstab.*,$(DEVICE_PATH)/configs/fstab/,$(TARGET_COPY_OUT_VENDOR)/etc/) \
     $(DEVICE_PATH)/configs/init/init.generic.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.generic.rc
 
 # Images
@@ -56,7 +56,7 @@ PRODUCT_COPY_FILES += \
 
 # Ramdisk
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/fstab/fstab.generic:$(TARGET_COPY_OUT_RAMDISK)/fstab.generic
+    $(call find-copy-subdir-files,fstab.*,$(DEVICE_PATH)/configs/fstab/,$(TARGET_COPY_OUT_RAMDISK)/)
 
 # Recovery
 PRODUCT_COPY_FILES += \

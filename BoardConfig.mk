@@ -21,6 +21,7 @@ BOARD_KERNEL_CMDLINE := \
     $(MAINLINE_COMMON_ANDROIDBOOT_PARAMS) \
     $(MAINLINE_COMMON_KERNEL_PARAMS) \
     androidboot.boot_devices=any \
+    androidboot.fstab_suffix=bind_mount.image \
     androidboot.hardware=generic \
     androidboot.mount_on_oem_which_contain=android/system.img;android/vendor.img \
     androidboot.selinux=permissive \
@@ -63,7 +64,7 @@ TARGET_BOARD_PLATFORM := generic
 BOARD_RAMDISK_USE_LZ4 := true
 
 # Recovery
-TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/configs/fstab/fstab.generic
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/configs/fstab/fstab.standard_partitions
 
 # SELinux
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
