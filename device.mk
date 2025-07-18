@@ -33,6 +33,10 @@ PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,fstab.*,$(DEVICE_PATH)/configs/fstab/,$(TARGET_COPY_OUT_VENDOR)/etc/) \
     $(DEVICE_PATH)/configs/init/init.generic.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.generic.rc
 
+# Input
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*.kl,$(DEVICE_PATH)/configs/input/,$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/)
+
 # Images
 PRODUCT_BUILD_BOOT_IMAGE := false
 PRODUCT_BUILD_RAMDISK_IMAGE := true
