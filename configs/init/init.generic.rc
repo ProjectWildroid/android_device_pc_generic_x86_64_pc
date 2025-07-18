@@ -5,6 +5,10 @@
 
 import /vendor/etc/init/hw/init.mainline.rc
 
+# Display
+on early-init
+    setprop ro.sf.lcd_density ${ro.boot.lcd_density:-160}
+
 # Mount
 on fs
     # Mount everything that does not require fsck
