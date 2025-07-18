@@ -40,7 +40,6 @@ PRODUCT_COPY_FILES += \
 # Images
 PRODUCT_BUILD_BOOT_IMAGE := false
 PRODUCT_BUILD_RAMDISK_IMAGE := true
-PRODUCT_BUILD_RECOVERY_IMAGE := true
 PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
 
 # Kernel
@@ -64,10 +63,6 @@ PRODUCT_COPY_FILES += \
 # Ramdisk
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,fstab.*,$(DEVICE_PATH)/configs/fstab/,$(TARGET_COPY_OUT_RAMDISK)/)
-
-# Recovery
-PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/init/init.recovery.generic.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.generic.rc
 
 # Shipping API level
 PRODUCT_SHIPPING_API_LEVEL := 33

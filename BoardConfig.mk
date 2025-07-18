@@ -72,9 +72,6 @@ TARGET_VENDOR_PROP += \
 # Ramdisk
 BOARD_RAMDISK_USE_LZ4 := true
 
-# Recovery
-TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/configs/fstab/fstab.standard_partitions
-
 # SELinux
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/public
