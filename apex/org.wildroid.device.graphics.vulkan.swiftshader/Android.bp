@@ -1,0 +1,27 @@
+//
+// SPDX-FileCopyrightText: The Wildroid Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+apex {
+    name: "org.wildroid.device.graphics.vulkan.swiftshader",
+    defaults: ["org.lineageos.device.graphics.vulkan.swiftshader_defaults"],
+    manifest: "apex_manifest.json",
+
+    prebuilts: [
+        "org.wildroid.device.graphics.vulkan.swiftshader.rc",
+    ],
+}
+
+genrule {
+    name: "gen-org.wildroid.device.graphics.vulkan.swiftshader.rc",
+    srcs: [":org.lineageos.device.graphics.vulkan.swiftshader.rc_filegroup"],
+    out: ["org.wildroid.device.graphics.vulkan.swiftshader.rc"],
+    cmd: "sed 's/lineageos/wildroid/g' $(in) > $(out)",
+}
+
+prebuilt_etc {
+    name: "org.wildroid.device.graphics.vulkan.swiftshader.rc",
+    src: ":gen-org.wildroid.device.graphics.vulkan.swiftshader.rc",
+    installable: false,
+}

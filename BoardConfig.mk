@@ -32,6 +32,7 @@ BOARD_KERNEL_CMDLINE := \
     androidboot.hardware=generic \
     androidboot.mount_on_oem_which_contain=android/system.img;android/vendor.img \
     androidboot.selinux=permissive \
+    androidboot.vendor.apex.org.wildroid.device.graphics.vulkan=no_apex \
     androidboot.verifiedbootstate=orange \
     8250.nr_uarts=1 \
     audit=0 \

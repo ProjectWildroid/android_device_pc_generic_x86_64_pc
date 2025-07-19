@@ -23,6 +23,14 @@ TARGET_SCREEN_HEIGHT := 300
 # Dalvik heap
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 
+# Graphics Vulkan
+PRODUCT_PACKAGES += \
+    org.wildroid.device.graphics.vulkan.no_apex \
+    org.wildroid.device.graphics.vulkan.swiftshader
+
+## TODO(b/65201432): Swiftshader needs to create executable memory.
+PRODUCT_REQUIRES_INSECURE_EXECMEM_FOR_SWIFTSHADER := true
+
 # HIDL
 PRODUCT_PACKAGES += \
     vndservicemanager
