@@ -16,6 +16,12 @@ TARGET_CPU_ABI := x86_64
 TARGET_ARCH := x86_64
 TARGET_ARCH_VARIANT := sandybridge
 
+# Boot manager
+TARGET_BOOT_MANAGER := grub
+TARGET_GRUB_ARCH := x86_64-efi
+TARGET_GRUB_2ND_ARCH := i386-pc
+TARGET_GRUB_LIVE_CONFIGS := $(DEVICE_PATH)/configs/bootmgr/grub-live.cfg
+
 # Boot parameters
 BOARD_KERNEL_CMDLINE := \
     $(MAINLINE_COMMON_ANDROIDBOOT_PARAMS) \
@@ -32,6 +38,9 @@ BOARD_KERNEL_CMDLINE := \
     console=tty0 \
     console=ttyS0 \
     mitigations=off
+
+BOARD_KERNEL_CMDLINE_LIVE := \
+    androidboot.use_tmpfs_userdata=1
 
 # Filesystem
 TARGET_USERIMAGES_SPARSE_EXT_DISABLED := true
