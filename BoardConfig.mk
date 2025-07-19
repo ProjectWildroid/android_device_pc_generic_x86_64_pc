@@ -32,7 +32,6 @@ BOARD_KERNEL_CMDLINE := \
     androidboot.hardware=generic \
     androidboot.mount_on_oem_which_contain=android/system.img;android/vendor.img \
     androidboot.selinux=permissive \
-    androidboot.vendor.apex.org.wildroid.device.graphics.vulkan=no_apex \
     androidboot.verifiedbootstate=orange \
     8250.nr_uarts=1 \
     audit=0 \
@@ -107,6 +106,7 @@ TARGET_VENDOR_PROP += \
 BOARD_RAMDISK_USE_LZ4 := true
 
 # SELinux
+BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/public
 

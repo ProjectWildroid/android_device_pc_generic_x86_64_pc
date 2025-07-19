@@ -1,0 +1,12 @@
+# Must start this before bootstrap APEXes are getting activated
+service vendor.gpu_detect /vendor/bin/gpu_detect
+    user root
+    group root graphics
+    file /dev/kmsg w
+    oneshot
+    disabled
+
+on early-init
+    wait /dev/dri/card0
+    start vendor.gpu_detect
+    wait_for_prop init.svc.vendor.gpu_detect stopped

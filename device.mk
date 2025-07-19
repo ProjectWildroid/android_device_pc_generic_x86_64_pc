@@ -24,6 +24,10 @@ TARGET_SCREEN_HEIGHT := 300
 # Dalvik heap
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 
+# Graphics
+PRODUCT_PACKAGES += \
+    gpu_detect
+
 # Graphics Vulkan
 PRODUCT_PACKAGES += \
     org.wildroid.device.graphics.vulkan.no_apex \
