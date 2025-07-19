@@ -7,6 +7,7 @@
 /dev/block/by-name/metadata /metadata ext4 nodev,noatime,nosuid,discard,data=journal,commit=1 first_stage_mount,check,formattable,metadata_csum
 
 # System
+/dev/block/by-name/system /system erofs noatime,ro first_stage_mount
 /dev/block/by-name/system /system ext4 noatime,ro first_stage_mount
 
 # Userdata
@@ -14,4 +15,5 @@
 /dev/block/by-name/userdata /data f2fs nodev,noatime,nosuid,discard,reserve_root=32768 latemount,check,quota,formattable
 
 # Vendor
+/dev/block/by-name/vendor /vendor erofs noatime,ro first_stage_mount
 /dev/block/by-name/vendor /vendor ext4 noatime,ro first_stage_mount
