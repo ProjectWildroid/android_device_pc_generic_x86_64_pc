@@ -49,6 +49,23 @@ TARGET_USERIMAGES_SPARSE_EXT_DISABLED := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USERIMAGES_USE_EXT4 := true
 
+# Graphics (Mesa)
+BOARD_MESA3D_GALLIUM_DRIVERS += \
+    crocus \
+    iris \
+    radeonsi \
+    r300 \
+    r600 \
+    svga \
+    virgl
+# Not supported yet: nouveau
+BOARD_MESA3D_VULKAN_DRIVERS += \
+    amd \
+    intel \
+    intel_hasvk \
+    virtio
+# Not supported yet: nouveau
+
 # Kernel
 BOARD_KERNEL_IMAGE_NAME := bzImage
 MERGE_ALL_KERNEL_CONFIGS_AT_ONCE := true

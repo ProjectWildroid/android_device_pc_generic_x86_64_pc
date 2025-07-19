@@ -7,6 +7,7 @@ DEVICE_PATH := device/pc/generic_x86_64_pc
 
 # Inherit from mainline/common
 TARGET_HAS_VIBRATOR := false
+TARGET_MESA_DO_NOT_SET_AS_DEFAULT := true
 TARGET_SUPPORTS_SUSPEND := false
 TARGET_SUPPORTS_USB_ACCESSORY_MODE := false
 TARGET_USES_FRAMEBUFFER_DISPLAY := true
