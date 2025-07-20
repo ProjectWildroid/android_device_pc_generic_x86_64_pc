@@ -14,6 +14,5 @@ apex {
 
     prebuilts: [
         "allocator.minigbm.xml",
-        "mapper.minigbm_generic_x86.xml",
     ],
 }

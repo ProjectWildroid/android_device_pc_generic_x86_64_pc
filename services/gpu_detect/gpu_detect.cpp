@@ -43,6 +43,7 @@ constexpr char kVulkanApexProp[] = "ro.boot.vendor.apex.org.wildroid.device.grap
 constexpr char kGraphicsGpuNameProp[] = "ro.vendor.graphics.gpu.name";
 
 constexpr char kBootGraphicsProp[] = "ro.boot.graphics";
+constexpr char kBootOdmSkuProp[] = "ro.boot.product.hardware.sku";
 constexpr char kBootUseFbDisplayProp[] = "ro.boot.use_fb_display";
 
 const std::string kDmiIdPath = "/sys/devices/virtual/dmi/id/";
@@ -240,6 +241,15 @@ bool ApplySelections(void) {
         }
     } else {
         LOG(WARNING) << "Graphics Composer APEX is unset";
+    }
+
+    /*
+     * HACK: IMapper loads the lib using openDeclaredPassthroughHal()
+     *       If vintf manifest is in APEX and the lib is in /vendor, it will not load
+     */
+    if (gGrallocApex == GrallocApex::Minigbm) {
+        LOG(INFO) << "HACK: Set odm sku to minigbm-generic-x86-imapper5";
+        ret &= SetProperty(kBootOdmSkuProp, "minigbm-generic-x86-imapper5");
     }
 
     if (!ret) LOG(ERROR) << __FUNCTION__ << "(): Failed to set some properties";
