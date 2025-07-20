@@ -1,0 +1,19 @@
+//
+// SPDX-FileCopyrightText: The Wildroid Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+apex {
+    name: "org.wildroid.device.graphics.allocator.minigbm",
+    manifest: "apex_manifest.json",
+    key: "com.android.hardware.key",
+    certificate: ":com.android.hardware.certificate",
+    file_contexts: "apex_file_contexts",
+    updatable: false,
+    vendor: true,
+
+    prebuilts: [
+        "allocator.minigbm.xml",
+        "mapper.minigbm_generic_x86.xml",
+    ],
+}

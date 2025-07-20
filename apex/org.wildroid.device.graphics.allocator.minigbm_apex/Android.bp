@@ -1,0 +1,49 @@
+//
+// SPDX-FileCopyrightText: The Wildroid Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+apex {
+    name: "org.wildroid.device.graphics.allocator.minigbm_apex",
+    manifest: "apex_manifest.json",
+    key: "com.android.hardware.key",
+    certificate: ":com.android.hardware.certificate",
+    file_contexts: "apex_file_contexts",
+    updatable: false,
+    vendor: true,
+
+    // for app_process32 apps
+    compile_multilib: "both",
+
+    binaries: [
+        "android.hardware.graphics.allocator-service.minigbm_generic_x86",
+    ],
+    native_shared_libs: [
+        "mapper.minigbm_generic_x86",
+    ],
+    prebuilts: [
+        "allocator.minigbm.xml",
+        "mapper.minigbm_generic_x86.xml",
+        "org.wildroid.device.graphics.allocator.minigbm_apex-linker-config",
+        "org.wildroid.device.graphics.allocator.minigbm_apex.rc",
+    ],
+}
+
+linker_config {
+    name: "org.wildroid.device.graphics.allocator.minigbm_apex-linker-config",
+    src: "apex_linkerconfig.json",
+    installable: false,
+}
+
+genrule {
+    name: "gen-org.wildroid.device.graphics.allocator.minigbm_apex.rc",
+    srcs: [":allocator.minigbm_generic_x86.rc"],
+    out: ["org.wildroid.device.graphics.allocator.minigbm_apex.rc"],
+    cmd: "sed -E 's%/vendor/bin/%/apex/org.wildroid.device.graphics.allocator/bin/%;s%vendor.graphics.allocator%vendor.graphics.allocator.apex%' $(in) > $(out)",
+}
+
+prebuilt_etc {
+    name: "org.wildroid.device.graphics.allocator.minigbm_apex.rc",
+    src: ":gen-org.wildroid.device.graphics.allocator.minigbm_apex.rc",
+    installable: false,
+}

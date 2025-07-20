@@ -1,0 +1,28 @@
+//
+// SPDX-FileCopyrightText: The Wildroid Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+apex {
+    name: "org.wildroid.device.graphics.composer.drm_apex",
+    manifest: "apex_manifest.json",
+    key: "com.android.hardware.key",
+    certificate: ":com.android.hardware.certificate",
+    file_contexts: ":drm_hwcomposer_hwc3_apex_file_contexts",
+    updatable: false,
+    vendor: true,
+
+    binaries: [
+        "android.hardware.composer.hwc3-service.drm",
+    ],
+    prebuilts: [
+        "drm_hwcomposer_hwc3_apex_vintf",
+        "org.wildroid.device.graphics.composer.drm_apex.rc",
+    ],
+}
+
+prebuilt_etc {
+    name: "org.wildroid.device.graphics.composer.drm_apex.rc",
+    src: "org.wildroid.device.graphics.composer.drm_apex.rc",
+    vendor: true,
+}

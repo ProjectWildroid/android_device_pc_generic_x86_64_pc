@@ -1,0 +1,25 @@
+//
+// SPDX-FileCopyrightText: The Wildroid Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+apex {
+    name: "org.wildroid.device.graphics.allocator.v2_0",
+    manifest: "apex_manifest.json",
+    key: "com.android.hardware.key",
+    certificate: ":com.android.hardware.certificate",
+    file_contexts: "apex_file_contexts",
+    updatable: false,
+    vendor: true,
+
+    prebuilts: [
+        "org.wildroid.device.graphics.allocator.v2_0.xml",
+    ],
+}
+
+prebuilt_etc {
+    name: "org.wildroid.device.graphics.allocator.v2_0.xml",
+    src: "org.wildroid.device.graphics.allocator.v2_0.xml",
+    sub_dir: "vintf",
+    installable: false,
+}

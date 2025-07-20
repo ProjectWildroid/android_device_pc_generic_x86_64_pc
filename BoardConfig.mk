@@ -49,6 +49,7 @@ TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USERIMAGES_USE_EXT4 := true
 
 # Graphics (Mesa)
+BOARD_MESA3D_BUILD_LIBGBM := true
 BOARD_MESA3D_GALLIUM_DRIVERS += \
     crocus \
     iris \
@@ -64,6 +65,9 @@ BOARD_MESA3D_VULKAN_DRIVERS += \
     intel_hasvk \
     virtio
 # Not supported yet: nouveau
+
+# Graphics allocator (minigbm)
+$(call soong_config_set, minigbm, platform, generic_x86)
 
 # Kernel
 BOARD_KERNEL_IMAGE_NAME := bzImage
@@ -106,7 +110,11 @@ TARGET_VENDOR_PROP += \
 BOARD_RAMDISK_USE_LZ4 := true
 
 # SELinux
-BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
+BOARD_VENDOR_SEPOLICY_DIRS += \
+    $(DEVICE_PATH)/sepolicy/vendor \
+    $(MAINLINE_COMMON_PATH)/sepolicy/vendor/minigbm \
+    external/minigbm/cros_gralloc/sepolicy
+
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/public
 

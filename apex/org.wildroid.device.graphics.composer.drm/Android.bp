@@ -1,0 +1,26 @@
+//
+// SPDX-FileCopyrightText: The Wildroid Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+apex {
+    name: "org.wildroid.device.graphics.composer.drm",
+    manifest: "apex_manifest.json",
+    key: "com.android.hardware.key",
+    certificate: ":com.android.hardware.certificate",
+    file_contexts: "apex_file_contexts",
+    updatable: false,
+    vendor: true,
+
+    prebuilts: [
+        "drm_hwcomposer_hwc3_apex_vintf",
+    ],
+}
+
+// APEX init rc could not have path outside of the APEX
+prebuilt_etc {
+    name: "org.wildroid.device.graphics.composer.drm.rc",
+    src: "org.wildroid.device.graphics.composer.drm.rc",
+    sub_dir: "init",
+    vendor: true,
+}

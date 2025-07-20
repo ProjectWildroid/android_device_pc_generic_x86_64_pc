@@ -1,0 +1,5 @@
+{
+    "name": "org.wildroid.device.graphics.allocator",
+    "bootstrap": true,
+    "version": 1
+}
