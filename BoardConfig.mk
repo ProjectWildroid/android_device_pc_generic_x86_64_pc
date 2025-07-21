@@ -27,16 +27,13 @@ BOARD_KERNEL_CMDLINE := \
     $(MAINLINE_COMMON_ANDROIDBOOT_PARAMS) \
     $(MAINLINE_COMMON_KERNEL_PARAMS) \
     androidboot.boot_devices=any \
-    androidboot.console=hvc0 \
     androidboot.fstab_suffix=bind_mount.image \
     androidboot.hardware=generic \
     androidboot.mount_on_oem_which_contain=android/system.img;android/vendor.img \
     androidboot.selinux=permissive \
     androidboot.verifiedbootstate=orange \
-    8250.nr_uarts=1 \
     audit=0 \
     console=tty0 \
-    console=ttyS0 \
     mitigations=off
 
 BOARD_KERNEL_CMDLINE_LIVE := \
