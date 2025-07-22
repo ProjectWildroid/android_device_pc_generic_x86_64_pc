@@ -29,6 +29,7 @@ BOARD_KERNEL_CMDLINE := \
     androidboot.boot_devices=any \
     androidboot.fstab_suffix=bind_mount.image \
     androidboot.hardware=generic \
+    androidboot.init_fatal_pause=true \
     androidboot.mount_on_oem_which_contain=android/system.img;android/vendor.img \
     androidboot.selinux=permissive \
     androidboot.verifiedbootstate=orange \
