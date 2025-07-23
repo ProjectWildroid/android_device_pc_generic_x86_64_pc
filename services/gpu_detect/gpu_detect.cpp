@@ -310,6 +310,10 @@ void OnDetectIntelGpu(void) {
     }
 }
 
+void OnDetectQxlGpu(void) {
+    SetupFramebufferDisplay();
+}
+
 void OnDetectVirtioGpu(int fd) {
     int ret = 0;
 
@@ -389,6 +393,8 @@ int main(int, char* argv[]) {
     LOG(INFO) << "GPU name is " << name;
     if (name == "i915") {
         OnDetectIntelGpu();
+    } else if (name == "qxl") {
+        OnDetectQxlGpu();
     } else if (name == "virtio_gpu") {
         OnDetectVirtioGpu(fd);
     } else if (name == "vmwgfx") {
