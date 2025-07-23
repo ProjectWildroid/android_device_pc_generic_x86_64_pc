@@ -11,6 +11,9 @@ include device/mainline/common/BoardConfigMainlineCommon.mk
 # A/B
 AB_OTA_UPDATER := false
 
+# Audio
+$(call soong_config_set_bool,tinyhal,libaudiohalcm_continue_on_ctl_open_error,true)
+
 # Architecture
 TARGET_CPU_ABI := x86_64
 TARGET_ARCH := x86_64
