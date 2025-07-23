@@ -71,7 +71,9 @@ $(call soong_config_set, minigbm, platform, generic_x86)
 BOARD_KERNEL_IMAGE_NAME := bzImage
 MERGE_ALL_KERNEL_CONFIGS_AT_ONCE := true
 TARGET_KERNEL_CONFIG := gki_defconfig
-TARGET_KERNEL_CONFIG_EXT := $(wildcard $(DEVICE_PATH)/kconfigs/*.config)
+TARGET_KERNEL_CONFIG_EXT := \
+    $(wildcard $(DEVICE_PATH)/kconfigs/*.config) \
+    kernel/mainline/configs/fragments/n/faster-build-time.config
 TARGET_KERNEL_SOURCE := kernel/pc/generic_x86_64_pc
 
 # OTA
