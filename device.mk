@@ -7,7 +7,7 @@ DEVICE_PATH := device/pc/generic_x86_64_pc
 
 # Inherit from mainline/common
 TARGET_AUDIO_HAL := tinyhal
-TARGET_AUDIO_POLICY := cuttlefish
+TARGET_AUDIO_POLICY := custom
 TARGET_GRAPHICS_ALLOCATOR_HAL := custom
 TARGET_GRAPHICS_COMPOSER_HAL := custom
 TARGET_HAS_VIBRATOR := false
@@ -22,7 +22,12 @@ $(call inherit-product, vendor/wildroid/config/tablet.mk)
 
 # Audio
 PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*.xml,$(DEVICE_PATH)/configs/audio/,$(TARGET_COPY_OUT_VENDOR)/etc/)
+    $(call find-copy-subdir-files,*.xml,$(DEVICE_PATH)/configs/audio/,$(TARGET_COPY_OUT_VENDOR)/etc/) \
+    device/google/cuttlefish/shared/config/audio/policy/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
+    frameworks/av/services/audiopolicy/config/audio_policy_volumes.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_volumes.xml \
+    frameworks/av/services/audiopolicy/config/bluetooth_with_le_audio_policy_configuration_7_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/bluetooth_with_le_audio_policy_configuration_7_0.xml \
+    frameworks/av/services/audiopolicy/config/default_volume_tables.xml:$(TARGET_COPY_OUT_VENDOR)/etc/default_volume_tables.xml \
+    frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml
 
 # Bootanimation
 TARGET_SCREEN_WIDTH := 300
