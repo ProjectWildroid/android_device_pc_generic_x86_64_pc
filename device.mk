@@ -6,6 +6,8 @@
 DEVICE_PATH := device/pc/generic_x86_64_pc
 
 # Inherit from mainline/common
+TARGET_AUDIO_HAL := tinyhal
+TARGET_AUDIO_POLICY := cuttlefish
 TARGET_GRAPHICS_ALLOCATOR_HAL := custom
 TARGET_GRAPHICS_COMPOSER_HAL := custom
 TARGET_HAS_VIBRATOR := false
@@ -17,6 +19,10 @@ $(call inherit-product, device/mainline/common/mainline_common.mk)
 
 # Inherit from Wildroid
 $(call inherit-product, vendor/wildroid/config/tablet.mk)
+
+# Audio
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*.xml,$(DEVICE_PATH)/configs/audio/,$(TARGET_COPY_OUT_VENDOR)/etc/)
 
 # Bootanimation
 TARGET_SCREEN_WIDTH := 300
