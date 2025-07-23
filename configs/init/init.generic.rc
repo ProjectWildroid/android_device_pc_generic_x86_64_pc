@@ -9,6 +9,14 @@ import /vendor/etc/init/hw/init.mainline.rc
 on early-init
     setprop ro.sf.lcd_density ${ro.boot.lcd_density:-160}
 
+# Light
+service vendor.light-default /vendor/bin/hw/android.hardware.light-service.lineage
+    class hal
+    user root
+    group root
+    shutdown critical
+    override
+
 # Mount
 on fs
     # Mount everything that does not require fsck
