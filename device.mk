@@ -171,6 +171,9 @@ PRODUCT_COPY_FILES += \
     vendor/wildroid/prebuilt/pci.ids:$(TARGET_COPY_OUT_VENDOR)/pci.ids \
     vendor/wildroid/prebuilt/usb.ids:$(TARGET_COPY_OUT_VENDOR)/usb.ids
 
+# Virtualization
+$(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk)
+
 # Wi-Fi
 PRODUCT_COPY_FILES += \
     external/wpa_supplicant_8/wpa_supplicant/wpa_supplicant_template.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant.conf
