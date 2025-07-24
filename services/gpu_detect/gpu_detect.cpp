@@ -47,6 +47,8 @@ constexpr char kBootGraphicsProp[] = "ro.boot.graphics";
 constexpr char kBootOdmSkuProp[] = "ro.boot.product.hardware.sku";
 constexpr char kBootUseFbDisplayProp[] = "ro.boot.use_fb_display";
 
+constexpr char kSfSupportsBackgroundBlurProp[] = "ro.surface_flinger.supports_background_blur";
+
 const std::string kDmiIdPath = "/sys/devices/virtual/dmi/id/";
 
 typedef struct {
@@ -246,6 +248,12 @@ bool ApplySelections(void) {
         }
     } else {
         LOG(WARNING) << "Graphics Composer APEX is unset";
+    }
+
+    // Enablue blur if not using Swiftshader graphics
+    if (gVulkanApex != VulkanApex::Swiftshader) {
+        LOG(INFO) << "Enable blur";
+        ret &= SetProperty(kSfSupportsBackgroundBlurProp, "1");
     }
 
     /*
