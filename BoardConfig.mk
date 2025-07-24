@@ -25,6 +25,11 @@ TARGET_GRUB_ARCH := x86_64-efi
 TARGET_GRUB_2ND_ARCH := i386-pc
 TARGET_GRUB_LIVE_CONFIGS := $(DEVICE_PATH)/configs/bootmgr/grub-live.cfg
 
+# Build
+ifneq ($(wildcard external/linux-firmware-upstream/README.md),)
+BUILD_BROKEN_DUP_RULES := true
+endif
+
 # Boot parameters
 BOARD_KERNEL_CMDLINE := \
     $(MAINLINE_COMMON_ANDROIDBOOT_PARAMS) \
