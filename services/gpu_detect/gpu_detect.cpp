@@ -89,10 +89,14 @@ const std::unordered_map<HwHwc, std::string> kHwHwcMap = {
 
 enum class HwVulkan {
     Unset,
+    Intel,
+    Intel_hasvk,
     Virtio,
 };
 
 const std::unordered_map<HwVulkan, std::string> kHwVulkanMap = {
+        {HwVulkan::Intel, "intel"},
+        {HwVulkan::Intel_hasvk, "intel_hasvk"},
         {HwVulkan::Virtio, "virtio"},
 };
 
@@ -304,8 +308,7 @@ void OnDetectIntelGpu(int fd) {
     if (!IsForcedSwiftshader()) {
         gGlesVersion = kGlesVersion32;
         gHwEgl = HwEgl::Mesa;
-        // TODO: gHwVulkan = HwVulkan::Intel;
-        // TODO: gHwVulkan = HwVulkan::Intel_hasvk;
+        gHwVulkan = HwVulkan::Intel;  // May get overridden later
     } else {
         UseSwiftshaderGraphics();
     }
@@ -328,6 +331,11 @@ void OnDetectIntelGpu(int fd) {
             // Except for Atom Processor Z36xxx/Z37xxx
             SetProperty("vendor.hwc.drm.avoid_using_alpha_bits_for_framebuffer", "1");
             SetProperty("vendor.hwc.drm.disable_planes", "1");
+        }
+        if (value <= 0x0F33 || (value >= 0x1602 && value <= 0x162E) ||
+            (value >= 0x22B0 && value <= 0x22B3)) {
+            // Approximate of gen7_ids and gen8_ids according to minigbm/i915.c
+            gHwVulkan = HwVulkan::Intel_hasvk;
         }
         // What about pre Intel Core? Those won't even boot...
     } else {
