@@ -36,6 +36,11 @@ TARGET_SCREEN_HEIGHT := 300
 # Dalvik heap
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 
+# Firmware
+PRODUCT_PACKAGES += \
+    wireless-regdb_regulatory.db \
+    wireless-regdb_regulatory.db.p7s
+
 # Graphics
 PRODUCT_PACKAGES += \
     gpu_detect
