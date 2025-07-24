@@ -43,6 +43,26 @@ PRODUCT_PACKAGES += \
     wireless-regdb_regulatory.db \
     wireless-regdb_regulatory.db.p7s
 
+LOCAL_FIRMWARE_DIR := external/linux-firmware-upstream
+ifeq ($(wildcard $(LOCAL_FIRMWARE_DIR)/README.md),)
+$(warning Please clone upstream linux-firmware repository to $(LOCAL_FIRMWARE_DIR))
+else
+LOCAL_FIRMWARE_COPY_SUBDIRS := \
+    amdgpu \
+    brcm \
+    i915 \
+    intel \
+    nvidia \
+    radeon \
+    rtl_bt \
+    rtl_nic \
+    rtlwifi \
+    xe
+PRODUCT_COPY_FILES += \
+    $(foreach d,$(LOCAL_FIRMWARE_COPY_SUBDIRS),$(call find-copy-subdir-files,*,$(LOCAL_FIRMWARE_DIR)/$(d)/,$(TARGET_COPY_OUT_VENDOR)/firmware/$(d)/)) \
+    $(call find-copy-subdir-files,iwlwifi-*,$(LOCAL_FIRMWARE_DIR)/,$(TARGET_COPY_OUT_VENDOR)/firmware/)
+endif
+
 # Graphics
 PRODUCT_PACKAGES += \
     gpu_detect
