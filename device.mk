@@ -19,6 +19,7 @@ include device/mainline/common/optional/options.mk
 $(call inherit-product, device/mainline/common/mainline_common.mk)
 
 # Inherit from Wildroid
+WILDROID_DEVICE_ARCH := x86_64
 $(call inherit-product, vendor/wildroid/config/tablet.mk)
 
 # Audio
