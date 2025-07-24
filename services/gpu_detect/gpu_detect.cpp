@@ -8,6 +8,7 @@
 #include <unistd.h>
 
 #include <list>
+#include <set>
 #include <string>
 #include <unordered_map>
 
@@ -50,6 +51,8 @@ constexpr char kBootUseFbDisplayProp[] = "ro.boot.use_fb_display";
 constexpr char kSfSupportsBackgroundBlurProp[] = "ro.surface_flinger.supports_background_blur";
 
 const std::string kDmiIdPath = "/sys/devices/virtual/dmi/id/";
+
+const std::set<std::string> kMustUseFbDisplayGpus = {"amdgpu", "nouveau"};
 
 typedef struct {
     std::string name;
@@ -432,7 +435,10 @@ int main(int, char* argv[]) {
     auto name = std::string(version->name, version->name_len);
     SetProperty(kGraphicsGpuNameProp, name);
     LOG(INFO) << "GPU name is " << name;
-    if (name == "i915") {
+    if (kMustUseFbDisplayGpus.find(name) != kMustUseFbDisplayGpus.end()) {
+        LOG(INFO) << "This GPU must use framebuffer display for now";
+        SetupFramebufferDisplay();
+    } else if (name == "i915") {
         OnDetectIntelGpu(fd);
     } else if (name == "qxl") {
         OnDetectQxlGpu();
