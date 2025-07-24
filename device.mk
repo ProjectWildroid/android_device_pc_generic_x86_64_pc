@@ -49,7 +49,6 @@ $(warning Please clone upstream linux-firmware repository to $(LOCAL_FIRMWARE_DI
 else
 LOCAL_FIRMWARE_COPY_SUBDIRS := \
     amdgpu \
-    brcm \
     i915 \
     intel \
     nvidia \
@@ -60,6 +59,8 @@ LOCAL_FIRMWARE_COPY_SUBDIRS := \
     xe
 PRODUCT_COPY_FILES += \
     $(foreach d,$(LOCAL_FIRMWARE_COPY_SUBDIRS),$(call find-copy-subdir-files,*,$(LOCAL_FIRMWARE_DIR)/$(d)/,$(TARGET_COPY_OUT_VENDOR)/firmware/$(d)/)) \
+    $(call find-copy-subdir-files,*.bin,$(LOCAL_FIRMWARE_DIR)/brcm/,$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/) \
+    $(call find-copy-subdir-files,*.fw,$(LOCAL_FIRMWARE_DIR)/brcm/,$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/) \
     $(call find-copy-subdir-files,iwlwifi-*,$(LOCAL_FIRMWARE_DIR)/,$(TARGET_COPY_OUT_VENDOR)/firmware/)
 endif
 
