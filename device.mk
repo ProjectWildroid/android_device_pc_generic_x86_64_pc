@@ -8,6 +8,7 @@ DEVICE_PATH := device/pc/generic_x86_64_pc
 # Inherit from mainline/common
 TARGET_AUDIO_HAL := tinyhal
 TARGET_AUDIO_POLICY := custom
+TARGET_CAMERA_PROVIDER_HAL := external
 TARGET_GRAPHICS_ALLOCATOR_HAL := custom
 TARGET_GRAPHICS_COMPOSER_HAL := custom
 TARGET_HAS_VIBRATOR := false
