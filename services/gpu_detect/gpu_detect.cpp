@@ -16,6 +16,7 @@
 #include <android-base/logging.h>
 #include <android-base/properties.h>
 
+#include <i915_drm.h>
 #include <virtgpu_drm.h>
 #include <xf86drm.h>
 
@@ -293,8 +294,8 @@ void OnDetectUnknownGpu(void) {
     UseSwiftshaderGraphics();
 }
 
-void OnDetectIntelGpu(void) {
-    // TODO: Enable HWC workarounds (conditionally)
+void OnDetectIntelGpu(int fd) {
+    int ret = 0;
 
     gHwcApex = HwcApex::Drm;
     gGrallocApex = GrallocApex::Minigbm;
@@ -307,6 +308,30 @@ void OnDetectIntelGpu(void) {
         // TODO: gHwVulkan = HwVulkan::Intel_hasvk;
     } else {
         UseSwiftshaderGraphics();
+    }
+
+    int value;
+    drm_i915_getparam_t get_param = {
+            .value = &value,
+    };
+
+    get_param.param = I915_PARAM_CHIPSET_ID;
+    ret = drmIoctl(fd, DRM_IOCTL_I915_GETPARAM, &get_param);
+    if (!ret) {
+        // Enable various workarounds
+        /*
+         * If the determination gets more complicated in future,
+         * We can consider using minigbm's i915_info_from_device_id()
+         */
+        if (value < 0x1902 && value != 0x0f31) {
+            // From Intel Core to pre-Skylake (HD Graphics 510)
+            // Except for Atom Processor Z36xxx/Z37xxx
+            SetProperty("vendor.hwc.drm.avoid_using_alpha_bits_for_framebuffer", "1");
+            SetProperty("vendor.hwc.drm.disable_planes", "1");
+        }
+        // What about pre Intel Core? Those won't even boot...
+    } else {
+        LOG(ERROR) << "Failed to get I915_PARAM_CHIPSET_ID";
     }
 }
 
@@ -392,7 +417,7 @@ int main(int, char* argv[]) {
     SetProperty(kGraphicsGpuNameProp, name);
     LOG(INFO) << "GPU name is " << name;
     if (name == "i915") {
-        OnDetectIntelGpu();
+        OnDetectIntelGpu(fd);
     } else if (name == "qxl") {
         OnDetectQxlGpu();
     } else if (name == "virtio_gpu") {
