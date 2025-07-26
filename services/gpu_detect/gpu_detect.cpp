@@ -25,10 +25,10 @@ using namespace android::base;
 
 namespace {
 
-constexpr unsigned int kGlesVersion20 = 131072;
-constexpr unsigned int kGlesVersion30 = 196608;
-constexpr unsigned int kGlesVersion31 = 196609;
-constexpr unsigned int kGlesVersion32 = 196610;
+constexpr int kGlesVersion20 = 131072;
+constexpr int kGlesVersion30 = 196608;
+constexpr int kGlesVersion31 = 196609;
+constexpr int kGlesVersion32 = 196610;
 
 constexpr char kCtlStopProp[] = "ctl.stop";
 
@@ -160,7 +160,7 @@ const std::unordered_map<VulkanApex, std::string> kVulkanApexMap = {
         {VulkanApex::Swiftshader, "org.wildroid.device.graphics.vulkan.swiftshader"},
 };
 
-unsigned int gGlesVersion = kGlesVersion20;
+int gGlesVersion = kGlesVersion20;
 HwEgl gHwEgl = HwEgl::Unset;
 HwGralloc gHwGralloc = HwGralloc::Unset;
 HwHwc gHwHwc = HwHwc::Unset;
@@ -169,7 +169,32 @@ GrallocApex gGrallocApex = GrallocApex::Unset;
 HwcApex gHwcApex = HwcApex::Unset;
 VulkanApex gVulkanApex = VulkanApex::Unset;
 
+const std::unordered_map<std::string, int*> kBootOverridesProp = {
+        {"gles_version", &gGlesVersion},
+        {"hw_egl", reinterpret_cast<int*>(&gHwEgl)},
+        {"hw_gralloc", reinterpret_cast<int*>(&gHwGralloc)},
+        {"hw_hwc", reinterpret_cast<int*>(&gHwHwc)},
+        {"hw_vulkan", reinterpret_cast<int*>(&gHwVulkan)},
+        {"gralloc_apex", reinterpret_cast<int*>(&gGrallocApex)},
+        {"hwc_apex", reinterpret_cast<int*>(&gHwcApex)},
+        {"vulkan_apex", reinterpret_cast<int*>(&gVulkanApex)},
+};
+
+void ProcessBootOverrides() {
+    for (const auto& [name, pvar] : kBootOverridesProp) {
+        std::string prop = "ro.boot." + name;
+        int new_value = GetIntProperty<int>(prop, -1);
+        if (new_value != -1) {
+            LOG(INFO) << __FUNCTION__ << "(): Override " << name << " from "
+                      << std::to_string(*pvar) << " to " << std::to_string(new_value);
+            *pvar = new_value;
+        }
+    }
+}
+
 bool ApplySelections(void) {
+    ProcessBootOverrides();
+
     bool ret = true;
     const std::string* strp;
 
