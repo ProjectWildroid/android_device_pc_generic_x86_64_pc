@@ -52,7 +52,7 @@ constexpr char kSfSupportsBackgroundBlurProp[] = "ro.surface_flinger.supports_ba
 
 const std::string kDmiIdPath = "/sys/devices/virtual/dmi/id/";
 
-const std::set<std::string> kMustUseFbDisplayGpus = {"amdgpu", "nouveau"};
+const std::set<std::string> kMustUseFbDisplayGpus = {"nouveau"};
 
 typedef struct {
     std::string name;
@@ -96,12 +96,14 @@ enum class HwVulkan {
     Unset,
     Intel,
     Intel_hasvk,
+    Radeon,
     Virtio,
 };
 
 const std::unordered_map<HwVulkan, std::string> kHwVulkanMap = {
         {HwVulkan::Intel, "intel"},
         {HwVulkan::Intel_hasvk, "intel_hasvk"},
+        {HwVulkan::Radeon, "radeon"},
         {HwVulkan::Virtio, "virtio"},
 };
 
@@ -309,6 +311,16 @@ void OnDetectUnknownGpu(void) {
     UseSwiftshaderGraphics();
 }
 
+void OnDetectAmdGpu(void) {
+    gGrallocApex = GrallocApex::Minigbm;
+    gHwcApex = HwcApex::Drm;
+    gHwGralloc = HwGralloc::Minigbm;
+
+    gGlesVersion = kGlesVersion32;
+    gHwEgl = HwEgl::Mesa;
+    gHwVulkan = HwVulkan::Radeon;
+}
+
 void OnDetectIntelGpu(int fd) {
     int ret = 0;
 
@@ -438,6 +450,8 @@ int main(int, char* argv[]) {
     if (kMustUseFbDisplayGpus.find(name) != kMustUseFbDisplayGpus.end()) {
         LOG(INFO) << "This GPU must use framebuffer display for now";
         SetupFramebufferDisplay();
+    } else if (name == "amdgpu") {
+        OnDetectAmdGpu();
     } else if (name == "i915") {
         OnDetectIntelGpu(fd);
     } else if (name == "qxl") {
