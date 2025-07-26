@@ -102,7 +102,8 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     android.hardware.composer.hwc3-service.drm \
-    hwcomposer.drm
+    hwcomposer.drm \
+    hwcomposer.drm_minigbm
 
 PRODUCT_PACKAGES += \
     android.hardware.graphics.composer@2.1-service.drmfb

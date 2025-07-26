@@ -86,10 +86,12 @@ const std::unordered_map<HwGralloc, std::string> kHwGrallocMap = {
 enum class HwHwc {
     Unset,
     Drm,
+    DrmMinigbm,
 };
 
 const std::unordered_map<HwHwc, std::string> kHwHwcMap = {
         {HwHwc::Drm, "drm"},
+        {HwHwc::DrmMinigbm, "drm_minigbm"},
 };
 
 enum class HwVulkan {
