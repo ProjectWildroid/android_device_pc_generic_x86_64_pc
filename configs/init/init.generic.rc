@@ -45,7 +45,7 @@ service vendor.logcat_to_file /system/bin/logcat -f /data/logs/logcat.txt
     disabled
 
 on late-init
-    mkdir /data/logs 0775 system log
+    mkdir /data/logs 0775 system log encryption=None
     start vendor.logcat_to_file
 
 on boot
