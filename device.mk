@@ -136,6 +136,10 @@ PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
 # Kernel
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 
+# Modprobe
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,modules.*,$(DEVICE_PATH)/configs/modprobe/,$(TARGET_COPY_OUT_VENDOR)/lib/modules/) \
+
 # Mountpoints
 PRODUCT_PACKAGES += \
     vendor_firmware_mountpoint
