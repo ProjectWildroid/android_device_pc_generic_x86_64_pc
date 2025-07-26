@@ -129,6 +129,7 @@ enum class HwcApex {
     Unset,
     Drm,
     DrmApex,
+    DrmFb,
     V2_2,
     V2_4,
 };
@@ -140,6 +141,8 @@ const std::unordered_map<HwcApex, hal_apex_t> kHwcApexMap = {
         {HwcApex::DrmApex,
          {"org.wildroid.device.graphics.composer.drm_apex",
           {"vendor.hwcomposer-3-apex"}}},  // drm HWC AIDL HAL in /apex
+        {HwcApex::DrmFb,
+         {"org.wildroid.device.graphics.composer.drmfb", {"vendor.hwcomposer-2-1.drmfb"}}},
         {HwcApex::V2_2, {"org.wildroid.device.graphics.composer.v2_2", {"vendor.hwcomposer-2-2"}}},
         {HwcApex::V2_4, {"org.wildroid.device.graphics.composer.v2_4", {"vendor.hwcomposer-2-4"}}},
 };

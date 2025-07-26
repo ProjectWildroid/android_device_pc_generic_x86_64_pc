@@ -78,6 +78,9 @@ BOARD_MESA3D_VULKAN_DRIVERS += \
 # Graphics allocator (minigbm)
 $(call soong_config_set, minigbm, platform, generic_x86)
 
+# Graphics composer (drmfb)
+$(call soong_config_set_bool,drmfb_composer,uses_minigbm,true)
+
 # Kernel
 BOARD_KERNEL_IMAGE_NAME := bzImage
 MERGE_ALL_KERNEL_CONFIGS_AT_ONCE := true
@@ -124,6 +127,7 @@ BOARD_RAMDISK_USE_LZ4 := true
 BOARD_VENDOR_SEPOLICY_DIRS += \
     $(DEVICE_PATH)/sepolicy/vendor \
     $(MAINLINE_COMMON_PATH)/sepolicy/vendor/minigbm \
+    external/drmfb-composer/sepolicy \
     external/minigbm/cros_gralloc/sepolicy
 
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private

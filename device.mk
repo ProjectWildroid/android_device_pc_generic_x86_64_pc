@@ -92,6 +92,7 @@ PRODUCT_PACKAGES += \
     org.wildroid.device.graphics.composer.drm \
     org.wildroid.device.graphics.composer.drm.rc \
     org.wildroid.device.graphics.composer.drm_apex \
+    org.wildroid.device.graphics.composer.drmfb \
     org.wildroid.device.graphics.composer.v2_2 \
     org.wildroid.device.graphics.composer.v2_4
 
@@ -103,8 +104,12 @@ PRODUCT_PACKAGES += \
     android.hardware.composer.hwc3-service.drm \
     hwcomposer.drm
 
+PRODUCT_PACKAGES += \
+    android.hardware.graphics.composer@2.1-service.drmfb
+
 $(call soong_config_set_bool,drm_hwcomposer,include_init_rc,false)
 $(call soong_config_set_bool,drm_hwcomposer,include_vintf_fragments,false)
+$(call soong_config_set_bool,drmfb_composer,include_vintf_fragments,false)
 
 # Graphics Vulkan
 PRODUCT_PACKAGES += \
