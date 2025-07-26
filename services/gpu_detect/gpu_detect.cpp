@@ -316,9 +316,17 @@ void OnDetectUnknownGpu(void) {
     UseSwiftshaderGraphics();
 }
 
-void OnDetectAmdGpu(void) {
+void OnDetectAmdGpu(int fd) {
+    int ret;
+
+    ret = drmSetClientCap(fd, DRM_CLIENT_CAP_ATOMIC, 1);
+    if (!ret) {
+        gHwcApex = HwcApex::Drm;
+    } else {
+        gHwcApex = HwcApex::DrmFb;
+    }
+
     gGrallocApex = GrallocApex::Minigbm;
-    gHwcApex = HwcApex::Drm;
     gHwGralloc = HwGralloc::Minigbm;
 
     gGlesVersion = kGlesVersion32;
@@ -456,7 +464,7 @@ int main(int, char* argv[]) {
         LOG(INFO) << "This GPU must use framebuffer display for now";
         SetupFramebufferDisplay();
     } else if (name == "amdgpu") {
-        OnDetectAmdGpu();
+        OnDetectAmdGpu(fd);
     } else if (name == "i915") {
         OnDetectIntelGpu(fd);
     } else if (name == "qxl") {
