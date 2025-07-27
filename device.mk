@@ -66,6 +66,7 @@ endif
 
 # Graphics
 PRODUCT_PACKAGES += \
+    amdgpu.ids \
     gpu_detect
 
 # Graphics allocator
