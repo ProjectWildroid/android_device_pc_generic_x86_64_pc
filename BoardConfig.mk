@@ -127,8 +127,8 @@ BOARD_RAMDISK_USE_LZ4 := true
 BOARD_VENDOR_SEPOLICY_DIRS += \
     $(DEVICE_PATH)/sepolicy/vendor \
     $(MAINLINE_COMMON_PATH)/sepolicy/vendor/minigbm \
-    external/drmfb-composer/sepolicy \
-    external/minigbm/cros_gralloc/sepolicy
+    external/minigbm/cros_gralloc/sepolicy \
+    hardware/mainline/interfaces/graphics/composer/drmfb/sepolicy
 
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/public
