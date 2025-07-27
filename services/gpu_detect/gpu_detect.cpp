@@ -333,10 +333,9 @@ void OnDetectUnknownGpu(void) {
     LOG(WARNING) << "GPU is unsupported, applying defaults";
 
     gHwGralloc = HwGralloc::Gbm;
-    gHwHwc = HwHwc::Drm;
 
     gGrallocApex = GrallocApex::V2_0;
-    gHwcApex = HwcApex::V2_4;
+    gHwcApex = HwcApex::DrmFb;
 
     UseSwiftshaderGraphics();
 }
