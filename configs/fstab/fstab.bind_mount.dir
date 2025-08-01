@@ -21,3 +21,6 @@ android /oem virtiofs defaults first_stage_mount,ensure_path_accessible=android/
 /oem/android/vendor.img /vendor ext4 noatime,ro first_stage_mount
 /oem/android/firmware /vendor/firmware none bind first_stage_mount,nofail
 /oem/lib/firmware /vendor/firmware none bind first_stage_mount,nofail
+
+# ZRAM
+/dev/block/zram0 none swap defaults zramsize=50%

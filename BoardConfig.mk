@@ -90,6 +90,10 @@ TARGET_KERNEL_CONFIG_EXT := \
     kernel/mainline/configs/fragments/n/faster-build-time.config
 TARGET_KERNEL_SOURCE := kernel/pc/generic_x86_64_pc
 
+SYSTEM_KERNEL_MODULES := \
+    zram.ko \
+    zsmalloc.ko
+
 # OTA
 TARGET_SKIP_OTA_PACKAGE := true
 
