@@ -168,7 +168,7 @@ PRODUCT_COPY_FILES += \
 
 # Scripts
 PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/configs/scripts/,$(TARGET_COPY_OUT_VENDOR)/bin/) \
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/configs/scripts/,$(TARGET_COPY_OUT_VENDOR)/bin/)
 
 # Shipping API level
 PRODUCT_SHIPPING_API_LEVEL := 33
