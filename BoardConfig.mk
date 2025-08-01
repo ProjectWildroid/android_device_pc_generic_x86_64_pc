@@ -62,18 +62,18 @@ BOARD_MESA3D_BUILD_LIBGBM := true
 BOARD_MESA3D_GALLIUM_DRIVERS += \
     crocus \
     iris \
+    nouveau \
     radeonsi \
     r300 \
     r600 \
     svga \
     virgl
-# Not supported yet: nouveau
 BOARD_MESA3D_VULKAN_DRIVERS += \
     amd \
     intel \
     intel_hasvk \
+    nouveau \
     virtio
-# Not supported yet: nouveau
 
 # Graphics allocator (minigbm)
 $(call soong_config_set, minigbm, platform, generic_x86)
