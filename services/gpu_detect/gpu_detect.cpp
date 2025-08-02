@@ -344,16 +344,16 @@ void OnDetectAmdGpu(int fd) {
     int ret;
 
     ret = drmSetClientCap(fd, DRM_CLIENT_CAP_ATOMIC, 1);
-/*
-    if (!ret) {
-        gHwcApex = HwcApex::Drm;
-    } else {
-        gHwcApex = HwcApex::DrmFb;
-    }
+    /*
+        if (!ret) {
+            gHwcApex = HwcApex::Drm;
+        } else {
+            gHwcApex = HwcApex::DrmFb;
+        }
 
-    gGrallocApex = GrallocApex::Minigbm;
-    gHwGralloc = HwGralloc::Minigbm;
-*/
+        gGrallocApex = GrallocApex::Minigbm;
+        gHwGralloc = HwGralloc::Minigbm;
+    */
     // This is the currently working Gralloc&HWC combo
     if (ret) LOG(INFO) << "GPU does not support DRM_CLIENT_CAP_ATOMIC";
     gGrallocApex = GrallocApex::V2_0;
