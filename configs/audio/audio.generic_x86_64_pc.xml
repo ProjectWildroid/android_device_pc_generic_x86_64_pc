@@ -1,4 +1,7 @@
 <audiohal>
+    <codec_probe file="/proc/asound/card0/id">
+        <case name="bytcrrt5640" file="audio.bytcr-rt5640.xml" />
+    </codec_probe>
     <mixer card="0">
         <init>
             <ctl name="PCM Switch" val="1"/>
