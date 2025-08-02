@@ -337,7 +337,7 @@ void OnDetectUnknownGpu(void) {
     gGrallocApex = GrallocApex::V2_0;
     gHwcApex = HwcApex::DrmFb;
 
-    UseSwiftshaderGraphics();
+    gHwEgl = HwEgl::Mesa;
 }
 
 void OnDetectAmdGpu(int fd) {
