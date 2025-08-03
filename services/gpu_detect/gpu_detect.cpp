@@ -52,7 +52,7 @@ constexpr char kSfSupportsBackgroundBlurProp[] = "ro.surface_flinger.supports_ba
 
 const std::string kDmiIdPath = "/sys/devices/virtual/dmi/id/";
 
-const std::set<std::string> kMustUseFbDisplayGpus = {"nouveau"};
+const std::set<std::string> kMustUseFbDisplayGpus = {};
 
 typedef struct {
     std::string name;
