@@ -48,6 +48,8 @@ constexpr char kBootGraphicsProp[] = "ro.boot.graphics";
 constexpr char kBootOdmSkuProp[] = "ro.boot.product.hardware.sku";
 constexpr char kBootUseFbDisplayProp[] = "ro.boot.use_fb_display";
 
+constexpr char kHwcDrmDeviceProp[] = "vendor.hwc.drm.device";
+
 constexpr char kSfSupportsBackgroundBlurProp[] = "ro.surface_flinger.supports_background_blur";
 
 const std::string kDmiIdPath = "/sys/devices/virtual/dmi/id/";
@@ -500,13 +502,15 @@ int main(int, char* argv[]) {
         return ApplySelections() ? EXIT_SUCCESS : EXIT_FAILURE;
     }
 
+    std::string path;
     int fd;
     drmVersionPtr version;
     std::string name;
     std::list<unsigned int> drm_sysfb_cards;
 
     for (uint32_t i = 0; i < DRM_MAX_MINOR; i++) {
-        fd = open(std::string("/dev/dri/card" + std::to_string(i)).c_str(), O_RDONLY);
+        path = std::string("/dev/dri/card" + std::to_string(i));
+        fd = open(path.c_str(), O_RDONLY);
         if (fd >= 0) {
             version = drmGetVersion(fd);
             if (!version) {
@@ -534,7 +538,8 @@ int main(int, char* argv[]) {
 
     if (fd < 0 && !drm_sysfb_cards.empty()) {
         for (const auto& i : drm_sysfb_cards) {
-            fd = open(std::string("/dev/dri/card" + std::to_string(i)).c_str(), O_RDONLY);
+            path = std::string("/dev/dri/card" + std::to_string(i));
+            fd = open(path.c_str(), O_RDONLY);
             if (fd >= 0) {
                 version = drmGetVersion(fd);
                 if (!version) {
@@ -553,6 +558,12 @@ int main(int, char* argv[]) {
         SetupFramebufferDisplay();
         return ApplySelections() ? EXIT_SUCCESS : EXIT_FAILURE;
     }
+
+    /* TODO:
+     * HWC uses card nodes, Gralloc tries renderD nodes first
+     * Handle the situation on i.e. laptops with discrete graphics
+     */
+    SetProperty(kHwcDrmDeviceProp, path);
 
     SetProperty(kGraphicsGpuNameProp, name);
     LOG(INFO) << "GPU name is " << name;
