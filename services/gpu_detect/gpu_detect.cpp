@@ -50,6 +50,8 @@ constexpr char kBootUseFbDisplayProp[] = "ro.boot.use_fb_display";
 
 constexpr char kHwcDrmDeviceProp[] = "vendor.hwc.drm.device";
 
+constexpr char kMinigbmGenericBackendProp[] = "vendor.minigbm.generic_backend";
+
 constexpr char kSfSupportsBackgroundBlurProp[] = "ro.surface_flinger.supports_background_blur";
 
 const std::string kDmiIdPath = "/sys/devices/virtual/dmi/id/";
@@ -163,6 +165,19 @@ const std::unordered_map<VulkanApex, std::string> kVulkanApexMap = {
         {VulkanApex::Swiftshader, "org.wildroid.device.graphics.vulkan.swiftshader"},
 };
 
+enum class MinigbmGenericBackend {
+    Unset,
+    DmabufHeap,
+    DumbGeneric,
+    GbmMesa,
+};
+
+const std::unordered_map<MinigbmGenericBackend, std::string> kMinigbmGenericBackendMap = {
+        {MinigbmGenericBackend::DmabufHeap, "dmabuf_heap"},
+        {MinigbmGenericBackend::DumbGeneric, "dumb_generic"},
+        {MinigbmGenericBackend::GbmMesa, "gbm_mesa"},
+};
+
 int gGlesVersion = kGlesVersion20;
 HwEgl gHwEgl = HwEgl::Unset;
 HwGralloc gHwGralloc = HwGralloc::Unset;
@@ -171,6 +186,7 @@ HwVulkan gHwVulkan = HwVulkan::Unset;
 GrallocApex gGrallocApex = GrallocApex::Unset;
 HwcApex gHwcApex = HwcApex::Unset;
 VulkanApex gVulkanApex = VulkanApex::Unset;
+MinigbmGenericBackend gMinigbmGenericBackend = MinigbmGenericBackend::Unset;
 
 const std::unordered_map<std::string, int*> kBootOverridesProp = {
         {"gles_version", &gGlesVersion},
@@ -181,6 +197,7 @@ const std::unordered_map<std::string, int*> kBootOverridesProp = {
         {"gralloc_apex", reinterpret_cast<int*>(&gGrallocApex)},
         {"hwc_apex", reinterpret_cast<int*>(&gHwcApex)},
         {"vulkan_apex", reinterpret_cast<int*>(&gVulkanApex)},
+        {"minigbm_generic_backend", reinterpret_cast<int*>(&gMinigbmGenericBackend)},
 };
 
 void ProcessBootOverrides() {
@@ -210,6 +227,14 @@ bool ApplySelections(void) {
         ret &= SetProperty(kHwEglProp, *strp);
     } else {
         LOG(WARNING) << "EGL is unset";
+    }
+
+    if (gMinigbmGenericBackend != MinigbmGenericBackend::Unset) {
+        strp = &kMinigbmGenericBackendMap.at(gMinigbmGenericBackend);
+        LOG(INFO) << "Set minigbm generic backend to " << *strp;
+        ret &= SetProperty(kMinigbmGenericBackendProp, *strp);
+    } else {
+        LOG(WARNING) << "Minigbm generic backend is unset";
     }
 
     if (gHwGralloc != HwGralloc::Unset) {
