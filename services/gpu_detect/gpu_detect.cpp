@@ -52,6 +52,7 @@ constexpr char kSfSupportsBackgroundBlurProp[] = "ro.surface_flinger.supports_ba
 
 const std::string kDmiIdPath = "/sys/devices/virtual/dmi/id/";
 
+const std::set<std::string> kDrmSysfbNames = {"efidrm", "simpledrm", "vesadrm"};
 const std::set<std::string> kMustUseFbDisplayGpus = {};
 
 typedef struct {
@@ -500,29 +501,66 @@ int main(int, char* argv[]) {
     }
 
     int fd;
+    drmVersionPtr version;
+    std::string name;
+    std::list<unsigned int> drm_sysfb_cards;
+
     for (uint32_t i = 0; i < DRM_MAX_MINOR; i++) {
         fd = open(std::string("/dev/dri/card" + std::to_string(i)).c_str(), O_RDONLY);
-        if (fd >= 0) break;
+        if (fd >= 0) {
+            version = drmGetVersion(fd);
+            if (!version) {
+                LOG(ERROR) << "Failed to get DRM version for card " << std::to_string(i);
+                close(fd);
+                fd = -1;
+                continue;
+            }
+
+            name = std::string(version->name, version->name_len);
+            LOG(INFO) << "Card " << std::to_string(i) << " is " << name;
+
+            // Save DRM sysfb card, and close it for now
+            if (kDrmSysfbNames.find(name) != kDrmSysfbNames.end()) {
+                drm_sysfb_cards.push_back(i);
+                drmFreeVersion(version);
+                close(fd);
+                fd = -1;
+                continue;
+            }
+
+            break;
+        }
     }
+
+    if (fd < 0 && !drm_sysfb_cards.empty()) {
+        for (const auto& i : drm_sysfb_cards) {
+            fd = open(std::string("/dev/dri/card" + std::to_string(i)).c_str(), O_RDONLY);
+            if (fd >= 0) {
+                version = drmGetVersion(fd);
+                if (!version) {
+                    LOG(ERROR) << "Failed to get DRM version for card " << std::to_string(i);
+                    close(fd);
+                    fd = -1;
+                    continue;
+                }
+                name = std::string(version->name, version->name_len);
+            }
+        }
+    }
+
     if (fd < 0) {
         LOG(ERROR) << "Failed to open any DRM device, falling back to framebuffer display";
         SetupFramebufferDisplay();
         return ApplySelections() ? EXIT_SUCCESS : EXIT_FAILURE;
     }
 
-    drmVersionPtr version = drmGetVersion(fd);
-    if (!version) {
-        LOG(ERROR) << "Failed to get DRM version";
-        close(fd);
-        return EXIT_FAILURE;
-    }
-
-    auto name = std::string(version->name, version->name_len);
     SetProperty(kGraphicsGpuNameProp, name);
     LOG(INFO) << "GPU name is " << name;
     if (kMustUseFbDisplayGpus.find(name) != kMustUseFbDisplayGpus.end()) {
         LOG(INFO) << "This GPU must use framebuffer display for now";
         SetupFramebufferDisplay();
+    } else if (kDrmSysfbNames.find(name) != kDrmSysfbNames.end()) {
+        OnDetectDrmSysfb();
     } else if (name == "amdgpu") {
         OnDetectAmdGpu(fd);
     } else if (name == "i915") {
@@ -537,8 +575,6 @@ int main(int, char* argv[]) {
         OnDetectVirtioGpu(fd);
     } else if (name == "vmwgfx") {
         OnDetectVmwgfxGpu();
-    } else if (name == "efidrm" || name == "vesadrm") {
-        OnDetectDrmSysfb();
     } else {
         OnDetectUnknownGpu();
     }
