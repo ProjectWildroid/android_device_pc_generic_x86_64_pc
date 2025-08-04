@@ -329,6 +329,16 @@ void SetupFramebufferDisplay(void) {
     UseSwiftshaderGraphics();
 }
 
+void OnDetectDrmSysfb(void) {
+    LOG(INFO) << "Detected DRM sysfb";
+
+    gHwcApex = HwcApex::Drm;
+    gGrallocApex = GrallocApex::Minigbm;
+    gHwGralloc = HwGralloc::Minigbm;
+
+    UseSwiftshaderGraphics();
+}
+
 void OnDetectUnknownGpu(void) {
     LOG(WARNING) << "GPU is unsupported, applying defaults";
 
@@ -527,6 +537,8 @@ int main(int, char* argv[]) {
         OnDetectVirtioGpu(fd);
     } else if (name == "vmwgfx") {
         OnDetectVmwgfxGpu();
+    } else if (name == "efidrm" || name == "vesadrm") {
+        OnDetectDrmSysfb();
     } else {
         OnDetectUnknownGpu();
     }
