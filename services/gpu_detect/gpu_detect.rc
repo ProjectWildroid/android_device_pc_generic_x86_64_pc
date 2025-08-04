@@ -7,6 +7,6 @@ service vendor.gpu_detect /vendor/bin/gpu_detect
     disabled
 
 on early-init-middle
-    wait /dev/dri/card0
+    wait /dev/dri/renderD128
     start vendor.gpu_detect
     wait_for_prop init.svc.vendor.gpu_detect stopped
