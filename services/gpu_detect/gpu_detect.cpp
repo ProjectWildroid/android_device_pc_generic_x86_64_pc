@@ -98,14 +98,14 @@ enum class HwVulkan {
     Unset,
     Intel,
     Intel_hasvk,
+    Nouveau,
     Radeon,
     Virtio,
 };
 
 const std::unordered_map<HwVulkan, std::string> kHwVulkanMap = {
-        {HwVulkan::Intel, "intel"},
-        {HwVulkan::Intel_hasvk, "intel_hasvk"},
-        {HwVulkan::Radeon, "radeon"},
+        {HwVulkan::Intel, "intel"},     {HwVulkan::Intel_hasvk, "intel_hasvk"},
+        {HwVulkan::Nouveau, "nouveau"}, {HwVulkan::Radeon, "radeon"},
         {HwVulkan::Virtio, "virtio"},
 };
 
@@ -410,8 +410,27 @@ void OnDetectIntelGpu(int fd) {
     }
 }
 
+void OnDetectNouveauGpu(void) {
+    gHwcApex = HwcApex::DrmFb;
+    gGrallocApex = GrallocApex::V2_0;
+    gHwGralloc = HwGralloc::Gbm;
+
+    gGlesVersion = kGlesVersion31;
+    gHwEgl = HwEgl::Mesa;
+    gHwVulkan = HwVulkan::Nouveau;
+}
+
 void OnDetectQxlGpu(void) {
     SetupFramebufferDisplay();
+}
+
+void OnDetectRadeonGpu(void) {
+    gHwcApex = HwcApex::DrmFb;
+    gGrallocApex = GrallocApex::V2_0;
+    gHwGralloc = HwGralloc::Gbm;
+
+    gGlesVersion = kGlesVersion31;
+    gHwEgl = HwEgl::Mesa;
 }
 
 void OnDetectVirtioGpu(int fd) {
@@ -498,8 +517,12 @@ int main(int, char* argv[]) {
         OnDetectAmdGpu(fd);
     } else if (name == "i915") {
         OnDetectIntelGpu(fd);
+    } else if (name == "nouveau") {
+        OnDetectNouveauGpu();
     } else if (name == "qxl") {
         OnDetectQxlGpu();
+    } else if (name == "radeon") {
+        OnDetectRadeonGpu();
     } else if (name == "virtio_gpu") {
         OnDetectVirtioGpu(fd);
     } else if (name == "vmwgfx") {
