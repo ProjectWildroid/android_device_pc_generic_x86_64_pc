@@ -335,11 +335,15 @@ void SetupFramebufferDisplay(void) {
 void OnDetectDrmSysfb(void) {
     LOG(INFO) << "Detected DRM sysfb";
 
-    gHwcApex = HwcApex::Drm;
-    gGrallocApex = GrallocApex::Minigbm;
-    gHwGralloc = HwGralloc::Minigbm;
+    /*
+        gHwcApex = HwcApex::Drm;
+        gGrallocApex = GrallocApex::Minigbm;
+        gHwGralloc = HwGralloc::Minigbm;
 
-    UseSwiftshaderGraphics();
+        UseSwiftshaderGraphics();
+    */
+
+    SetupFramebufferDisplay();
 }
 
 void OnDetectUnknownGpu(void) {
