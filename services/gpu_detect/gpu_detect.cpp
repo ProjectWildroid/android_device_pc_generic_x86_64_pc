@@ -25,6 +25,15 @@ using namespace android::base;
 
 namespace {
 
+// From system/core/libsystem/include/system/graphics-base-v1.0.h
+typedef enum {
+    HAL_PIXEL_FORMAT_RGBA_8888 = 1,
+    HAL_PIXEL_FORMAT_RGBX_8888 = 2,
+    HAL_PIXEL_FORMAT_RGB_888 = 3,
+    HAL_PIXEL_FORMAT_RGB_565 = 4,
+    HAL_PIXEL_FORMAT_BGRA_8888 = 5,
+} android_pixel_format_t;
+
 constexpr int kGlesVersion20 = 131072;
 constexpr int kGlesVersion30 = 196608;
 constexpr int kGlesVersion31 = 196609;
@@ -52,6 +61,8 @@ constexpr char kHwcDrmDeviceProp[] = "vendor.hwc.drm.device";
 
 constexpr char kMinigbmGenericBackendProp[] = "vendor.minigbm.generic_backend";
 
+constexpr char kSfNativeWindowBuffersFormatProp[] =
+        "ro.surface_flinger.native_window_buffers_format";
 constexpr char kSfSupportsBackgroundBlurProp[] = "ro.surface_flinger.supports_background_blur";
 
 const std::string kDmiIdPath = "/sys/devices/virtual/dmi/id/";
@@ -187,6 +198,7 @@ GrallocApex gGrallocApex = GrallocApex::Unset;
 HwcApex gHwcApex = HwcApex::Unset;
 VulkanApex gVulkanApex = VulkanApex::Unset;
 MinigbmGenericBackend gMinigbmGenericBackend = MinigbmGenericBackend::Unset;
+android_pixel_format_t gSfNativeWindowBuffersFormat = HAL_PIXEL_FORMAT_RGBA_8888;
 
 const std::unordered_map<std::string, int*> kBootOverridesProp = {
         {"gles_version", &gGlesVersion},
@@ -198,6 +210,7 @@ const std::unordered_map<std::string, int*> kBootOverridesProp = {
         {"hwc_apex", reinterpret_cast<int*>(&gHwcApex)},
         {"vulkan_apex", reinterpret_cast<int*>(&gVulkanApex)},
         {"minigbm_generic_backend", reinterpret_cast<int*>(&gMinigbmGenericBackend)},
+        {"sf_native_window_buffers_format", reinterpret_cast<int*>(&gSfNativeWindowBuffersFormat)},
 };
 
 void ProcessBootOverrides() {
@@ -217,6 +230,13 @@ bool ApplySelections(void) {
 
     bool ret = true;
     const std::string* strp;
+
+    if (gSfNativeWindowBuffersFormat != HAL_PIXEL_FORMAT_RGBA_8888) {
+        LOG(INFO) << "Set surfaceflinger native window buffers format to "
+                  << std::to_string(gSfNativeWindowBuffersFormat);
+        ret &= SetProperty(kSfNativeWindowBuffersFormatProp,
+                           std::to_string(gSfNativeWindowBuffersFormat));
+    }
 
     LOG(INFO) << "Set OpenGLES version to " << std::to_string(gGlesVersion);
     ret &= SetProperty(kGlesVersionProp, std::to_string(gGlesVersion));
@@ -353,6 +373,8 @@ void SetupFramebufferDisplay(void) {
 
     gGrallocApex = GrallocApex::V2_0;
     gHwcApex = HwcApex::V2_2;
+
+    gSfNativeWindowBuffersFormat = HAL_PIXEL_FORMAT_BGRA_8888;
 
     UseSwiftshaderGraphics();
 }
@@ -491,6 +513,7 @@ void OnDetectVirtioGpu(int fd) {
             gHwVulkan = HwVulkan::Virtio;
             gGlesVersion = kGlesVersion32;
         } else {
+            gSfNativeWindowBuffersFormat = HAL_PIXEL_FORMAT_BGRA_8888;
             UseSwiftshaderGraphics();
         }
     } else {
