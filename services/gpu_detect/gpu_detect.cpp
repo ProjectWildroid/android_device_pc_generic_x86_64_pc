@@ -462,8 +462,10 @@ void OnDetectQxlGpu(void) {
 
 void OnDetectRadeonGpu(void) {
     gHwcApex = HwcApex::DrmFb;
-    gGrallocApex = GrallocApex::V2_0;
-    gHwGralloc = HwGralloc::Gbm;
+
+    gMinigbmGenericBackend = MinigbmGenericBackend::DumbGeneric;
+    gGrallocApex = GrallocApex::Minigbm;
+    gHwGralloc = HwGralloc::Minigbm;
 
     gGlesVersion = kGlesVersion31;
     gHwEgl = HwEgl::Mesa;
