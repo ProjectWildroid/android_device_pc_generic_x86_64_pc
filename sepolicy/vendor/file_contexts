@@ -1,2 +1,5 @@
 # Executables
 /vendor/bin/gpu_detect		u:object_r:vendor_gpu_detect_exec:s0
+
+# Same Process HAL
+/vendor/lib(64)?/libminigbm_wildroid_gralloc(_.*)?\.so		u:object_r:same_process_hal_file:s0

@@ -84,10 +84,10 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.mapper@2.0-impl-2.1
 
 PRODUCT_PACKAGES += \
-    android.hardware.graphics.allocator-service.minigbm_generic_x86 \
+    android.hardware.graphics.allocator-service.minigbm_wildroid_generic_x86 \
     gralloc.gbm \
-    gralloc.minigbm_generic_x86 \
-    mapper.minigbm_generic_x86
+    gralloc.minigbm_wildroid_generic_x86 \
+    mapper.minigbm_wildroid_generic_x86
 
 $(call soong_config_set_bool,minigbm,include_vintf_fragments,false)
 

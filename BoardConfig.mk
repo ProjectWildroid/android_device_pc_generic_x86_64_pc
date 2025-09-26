@@ -131,7 +131,7 @@ BOARD_RAMDISK_USE_LZ4 := true
 BOARD_VENDOR_SEPOLICY_DIRS += \
     $(DEVICE_PATH)/sepolicy/vendor \
     $(MAINLINE_COMMON_PATH)/sepolicy/vendor/minigbm \
-    external/minigbm/cros_gralloc/sepolicy \
+    external/minigbm-wildroid/cros_gralloc/sepolicy \
     hardware/mainline/interfaces/graphics/composer/drmfb/sepolicy
 
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
@@ -142,4 +142,4 @@ DEVICE_MANIFEST_FILE := \
     $(DEVICE_PATH)/configs/vintf/manifest.xml
 
 ODM_MANIFEST_SKUS := minigbm-generic-x86-imapper5
-ODM_MANIFEST_MINIGBM-GENERIC-X86-IMAPPER5_FILES := external/minigbm/cros_gralloc/mapper_stablec/mapper.minigbm_generic_x86.xml
+ODM_MANIFEST_MINIGBM-GENERIC-X86-IMAPPER5_FILES := external/minigbm-wildroid/cros_gralloc/mapper_stablec/mapper.minigbm_generic_x86.xml
