@@ -39,10 +39,6 @@ TARGET_SCREEN_HEIGHT := 300
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 
 # Firmware
-PRODUCT_PACKAGES += \
-    wireless-regdb_regulatory.db \
-    wireless-regdb_regulatory.db.p7s
-
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,vendor/pc/generic_x86_64_pc/proprietary/vendor/firmware/,$(TARGET_COPY_OUT_VENDOR)/firmware/)
 
