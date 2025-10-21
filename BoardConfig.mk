@@ -142,4 +142,4 @@ DEVICE_MANIFEST_FILE := \
     $(DEVICE_PATH)/configs/vintf/manifest.xml
 
 ODM_MANIFEST_SKUS := minigbm-generic-x86-imapper5
-ODM_MANIFEST_MINIGBM-GENERIC-X86-IMAPPER5_FILES := external/minigbm-wildroid/cros_gralloc/mapper_stablec/mapper.minigbm_generic_x86.xml
+ODM_MANIFEST_MINIGBM-GENERIC-X86-IMAPPER5_FILES := external/minigbm-wildroid/cros_gralloc/mapper_stablec/mapper.minigbm_wildroid_generic_x86.xml
