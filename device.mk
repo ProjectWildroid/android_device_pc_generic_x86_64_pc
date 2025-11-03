@@ -130,6 +130,8 @@ PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,init.*.rc,$(DEVICE_PATH)/configs/init/,$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/) \
     $(DEVICE_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_ODM)/etc/ueventd.rc
 
+$(call soong_config_set,mainline_common_libinit,set_properties_from,dmi_id)
+
 # Input
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*.kl,$(DEVICE_PATH)/configs/input/,$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/)
